@@ -1107,7 +1107,7 @@ func (b *bucketBlock) loadIndexCache(ctx context.Context) (err error) {
 
 	b.indexVersion, b.symbols, b.lvals, b.postings, err = block.ReadIndexCache(b.logger, cachefn)
 	if err != nil {
-		return errors.Wrap(err, "read index cache")
+		return errors.Wrap(err, "read fresh index cache")
 	}
 	return nil
 }
@@ -1179,13 +1179,20 @@ func newBucketIndexReader(ctx context.Context, logger log.Logger, block *bucketB
 		logger:       logger,
 		ctx:          ctx,
 		block:        block,
-		dec:          &index.Decoder{},
 		stats:        &queryStats{},
 		cache:        cache,
 		loadedSeries: map[uint64][]byte{},
 	}
-	r.dec.SetSymbolTable(r.block.symbols)
+	r.dec = &index.Decoder{LookupSymbol: r.lookupSymbol}
 	return r
+}
+
+func (r *bucketIndexReader) lookupSymbol(o uint32) (string, error) {
+	s, ok := r.block.symbols[o]
+	if !ok {
+		return "", errors.Errorf("bucketIndexReader: unknown symbol offset %d", o)
+	}
+	return s, nil
 }
 
 func (r *bucketIndexReader) preloadPostings() error {
@@ -1435,6 +1442,11 @@ func (r *bucketIndexReader) Series(ref uint64, lset *labels.Labels, chks *[]chun
 
 // LabelIndices returns the label pairs for which indices exist.
 func (r *bucketIndexReader) LabelIndices() ([][]string, error) {
+	return nil, errors.New("not implemented")
+}
+
+// LabelNames returns all the unique label names present in the index in sorted order.
+func (r *bucketIndexReader) LabelNames() ([]string, error) {
 	return nil, errors.New("not implemented")
 }
 

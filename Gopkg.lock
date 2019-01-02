@@ -34,7 +34,7 @@
   version = "0.1.7"
 
 [[projects]]
-  digest = "1:5da4d3b3b9949b9043d2fd36c4ff9b208f72ad5260a3dcb6f94267a769ee1899"
+  digest = "0:"
   name = "github.com/Azure/azure-storage-blob-go"
   packages = ["azblob"]
   pruneopts = ""
@@ -366,14 +366,6 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:3adc46876d4d0e4d5bbcfcc44c2116b95d7a5c966e2ee92a219488547fd453f2"
-  name = "github.com/nightlyone/lockfile"
-  packages = ["."]
-  pruneopts = ""
-  revision = "0ad87eef1443f64d3d8c50da647e2b1552851124"
-
-[[projects]]
   digest = "1:94e9081cc450d2cdf4e6886fc2c06c07272f86477df2d74ee5931951fa3d2577"
   name = "github.com/oklog/run"
   packages = ["."]
@@ -427,6 +419,7 @@
     "prometheus",
     "prometheus/internal",
     "prometheus/promhttp",
+    "prometheus/testutil",
   ]
   pruneopts = ""
   revision = "e637cec7d9c8990247098639ebc6d43dd34ddd49"
@@ -467,11 +460,12 @@
   revision = "05ee40e3a273f7245e8777337fc7b46e533a9a92"
 
 [[projects]]
-  digest = "1:b5ff9852eabe841003da4b0a4b742a2878c722dda6481003432344f633a814fc"
+  digest = "1:912a82611430bfd1e597e76aac99cac6fd34094a07b07d7c5996cf51a21e7e07"
   name = "github.com/prometheus/prometheus"
   packages = [
     "discovery/file",
     "discovery/targetgroup",
+    "pkg/gate",
     "pkg/labels",
     "pkg/rulefmt",
     "pkg/textparse",
@@ -487,11 +481,10 @@
     "util/testutil",
   ]
   pruneopts = ""
-  revision = "71af5e29e815795e9dd14742ee7725682fa14b7b"
-  version = "v2.3.2"
+  revision = "6e08029b56ae17c49e133d92a2792f6f119f2cbd"
 
 [[projects]]
-  digest = "1:216dcf26fbfb3f36f286ca3306882a157c51648e4b5d4f3a9e9c719faea6ea58"
+  digest = "1:3abe75906a8eb661cd15fd6ef2bec76ed5eff2d4b89b439591517637334fa665"
   name = "github.com/prometheus/tsdb"
   packages = [
     ".",
@@ -500,9 +493,11 @@
     "fileutil",
     "index",
     "labels",
+    "wal",
   ]
   pruneopts = ""
-  revision = "bd832fc8274e8fe63999ac749daaaff9d881241f"
+  revision = "101e247f7825431c185c81c07e775bf79c564a19"
+  source = "github.com/bwplotka/tsdb"
 
 [[projects]]
   branch = "master"
@@ -795,6 +790,7 @@
     "github.com/pkg/errors",
     "github.com/prometheus/client_golang/prometheus",
     "github.com/prometheus/client_golang/prometheus/promhttp",
+    "github.com/prometheus/client_golang/prometheus/testutil",
     "github.com/prometheus/common/model",
     "github.com/prometheus/common/route",
     "github.com/prometheus/common/version",

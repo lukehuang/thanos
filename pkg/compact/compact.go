@@ -718,7 +718,7 @@ func (cg *Group) compact(ctx context.Context, dir string, comp tsdb.Compactor) (
 
 	begin = time.Now()
 
-	compID, err = comp.Compact(dir, plan...)
+	compID, err = comp.Compact(dir, plan, nil)
 	if err != nil {
 		return compID, halt(errors.Wrapf(err, "compact blocks %v", plan))
 	}

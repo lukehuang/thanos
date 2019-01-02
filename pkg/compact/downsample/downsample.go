@@ -125,7 +125,7 @@ func Downsample(
 	if err != nil {
 		return id, errors.Wrap(err, "create compactor")
 	}
-	id, err = comp.Write(dir, newb, origMeta.MinTime, origMeta.MaxTime)
+	id, err = comp.Write(dir, newb, origMeta.MinTime, origMeta.MaxTime, &origMeta.BlockMeta)
 	if err != nil {
 		return id, errors.Wrap(err, "compact head")
 	}
@@ -228,12 +228,19 @@ func (b *memBlock) Chunks() (tsdb.ChunkReader, error) {
 }
 
 func (b *memBlock) Tombstones() (tsdb.TombstoneReader, error) {
-	return tsdb.EmptyTombstoneReader(), nil
+	return emptyTombstoneReader{}, nil
 }
 
 func (b *memBlock) Close() error {
 	return nil
 }
+
+type emptyTombstoneReader struct{}
+
+func (emptyTombstoneReader) Get(ref uint64) (tsdb.Intervals, error)        { return nil, nil }
+func (emptyTombstoneReader) Iter(func(uint64, tsdb.Intervals) error) error { return nil }
+func (emptyTombstoneReader) Total() uint64                                 { return 0 }
+func (emptyTombstoneReader) Close() error                                  { return nil }
 
 // currentWindow returns the end timestamp of the window that t falls into.
 func currentWindow(t, r int64) int64 {
